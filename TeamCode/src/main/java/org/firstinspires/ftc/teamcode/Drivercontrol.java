@@ -13,6 +13,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Drivercontrol extends LinearOpMode {
     // mecanum drive train
     private Mecanum mecanum;
+    //linear slide motor
+    private Dcmotor linearslide;
 
     // wobble goal manipulation system
     private DcMotor pivot;
@@ -46,7 +48,8 @@ public class Drivercontrol extends LinearOpMode {
         ramp_rings1 = hardwareMap.get(CRServo.class, "ramp_rings1");
         ramp_rings2 = hardwareMap.get(CRServo.class, "ramp_rings2");
 
-
+      //linear slide initialization
+        linearSlideMotor = hardwareMap.get(DcMotor.class, "linearSlide");
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -56,8 +59,10 @@ public class Drivercontrol extends LinearOpMode {
 
             // mecanum drive
             mecanum.drive(gamepad1.right_trigger - gamepad1.left_trigger, gamepad1.left_stick_x, gamepad1.right_stick_x);
-
-
+            // telemetry
+            telemetry.addData("heading", linearslide.getHeading());
+            telemetry.update();
+          
             // telemetry
             telemetry.addData("heading", mecanum.getHeading());
             telemetry.update();
